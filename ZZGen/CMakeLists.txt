@@ -3,7 +3,7 @@ cmake_minimum_required (VERSION 2.8)
 get_filename_component(PROJECT ${FILENAME} NAME_WE) #automatically sets project name from the filename
 # set(PROJECT "my_name") #alternatively set project name manually
 message(STATUS "Project name is ${PROJECT}")
-project (${PROJECT})
+project(ZZGen)
 
 include_directories(
     "${PROJECT_SOURCE_DIR}/../mi"
@@ -13,6 +13,9 @@ include_directories(
 include_directories(${SC_PATH}/include/plugin_interface)
 include_directories(${SC_PATH}/include/common)
 include_directories(${SC_PATH}/common)
+
+
+target_link_libraries(MILib)
 
 set(CMAKE_SHARED_MODULE_PREFIX "")
 if(APPLE OR WIN32)
@@ -87,6 +90,9 @@ if(MINGW)
 endif()
 
 add_library(${PROJECT} MODULE ${FILENAME})
+
+target_link_libraries(${PROJECT} MILib)
+
 if(SUPERNOVA)
     add_library(${PROJECT}_supernova MODULE ${FILENAME})
     set_property(TARGET ${PROJECT}_supernova

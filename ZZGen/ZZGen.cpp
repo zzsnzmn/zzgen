@@ -20,6 +20,7 @@ struct ZZGen : public Unit
 {
     double mPhase; // phase of the oscillator, from -1 to 1.
     float mFreqMul; // a constant for multiplying frequency
+    braids::MacroOscillator osc;
 };
 
 // declare unit generator functions
@@ -53,6 +54,7 @@ void ZZGen_Ctor(ZZGen* unit)
     unit->mFreqMul = 2.0 * SAMPLEDUR;
     // get initial phase of oscillator
     unit->mPhase = IN0(1);
+    unit->osc.set_shape(braids::MACRO_OSC_SHAPE_CSAW);
 
     // 3. calculate one sample of output.
     ZZGen_next_k(unit, 1);
@@ -83,19 +85,24 @@ void ZZGen_next_a(ZZGen *unit, int inNumSamples)
     // If this unit is audio rate then inNumSamples will be 64 or whatever
     // the block size is. If this unit is control rate then inNumSamples will
     // be 1.
-    for (int i=0; i < inNumSamples; ++i)
-    {
-        // out must be written last for in place operation
-        float z = phase;
-        phase += freq[i] * freqmul;
+    //bool sync_zero = x->f_ad_mod_vca!=0  || x->f_ad_mod_timbre !=0 || x->f_ad_mod_colour !=0 || x->f_ad_mod_fm !=0;;
+    bool sync_zero = 1;
 
-        // these if statements wrap the phase a +1 or -1.
-        if (phase >= 1.f) phase -= 2.f;
-        else if (phase <= -1.f) phase += 2.f;
-
-        // write the output
-        out[i] = z;
+    // Generete the blocks needed for given "n" size.
+    uint8_t* sync = new uint8_t[inNumSamples];
+    int16_t* outint = new int16_t[inNumSamples];
+    for (int i = 0; i < inNumSamples; i++) {
+        sync[i] = 0;
     }
+
+    unit->osc.Render(sync, outint, inNumSamples);
+
+    for (int i = 0; i < inNumSamples; i++) {
+      out[i] = outint[i] / 65536.0f ;
+    }
+
+    delete [] sync;
+    delete [] outint;
 
     // store the phase back to the struct
     unit->mPhase = phase;

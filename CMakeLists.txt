@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 2.8.11)
 
-project(Mi4Pd)
+project(zzugens)
 
-set(PROJECT_NAME Mi4Pd)
+set(PROJECT_NAME zzugens)
 set(CMAKE_OSX_ARCHITECTURES "i386;x86_64")
 
 if(WIN32)
@@ -10,9 +10,9 @@ if(WIN32)
 endif()
 
 if (APPLE)
-    set(EXECUTABLE_NAME Mi4Pd)
+    set(EXECUTABLE_NAME zzugens)
 elseif (UNIX)
-    set(EXECUTABLE_NAME mi4pd)
+    set(EXECUTABLE_NAME zzugens)
 endif (APPLE)
 
 set(CMAKE_CXX_STANDARD 11)
@@ -40,7 +40,6 @@ elseif (UNIX)
     endif ()
 elseif(WIN32)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DTEST")
-    set(PD_CMAKE_PATH C:/Program\ Files\ \(x86\)/Pd/bin)
 endif (APPLE)
 
 
