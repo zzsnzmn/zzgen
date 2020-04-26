@@ -54,7 +54,7 @@ void ZZGen_Ctor(ZZGen* unit)
     unit->mFreqMul = 2.0 * SAMPLEDUR;
     // get initial phase of oscillator
     unit->mPhase = IN0(1);
-    unit->osc.set_shape(braids::MACRO_OSC_SHAPE_CSAW);
+    unit->osc.set_shape(braids::MACRO_OSC_SHAPE_SINE_TRIANGLE);
 
     // 3. calculate one sample of output.
     ZZGen_next_k(unit, 1);
@@ -80,6 +80,8 @@ void ZZGen_next_a(ZZGen *unit, int inNumSamples)
     // The optimizer will cause them to be loaded it into a register.
     float freqmul = unit->mFreqMul;
     double phase = unit->mPhase;
+
+    unit->osc.set_pitch(440);
 
     // perform a loop for the number of samples in the control period.
     // If this unit is audio rate then inNumSamples will be 64 or whatever
