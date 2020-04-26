@@ -1,5 +1,17 @@
 #include "SC_PlugIn.h"
 
+
+#include <algorithm>
+#include "braids/macro_oscillator.h"
+#include "braids/envelope.h"
+#include "braids/vco_jitter_source.h"
+
+
+// for signature_waveshaper, need abs
+inline int16_t abs(int16_t x) { return x <0.0f ? -x : x;}
+#include "braids/signature_waveshaper.h"
+
+
 // InterfaceTable contains pointers to functions in the host (server).
 static InterfaceTable *ft;
 

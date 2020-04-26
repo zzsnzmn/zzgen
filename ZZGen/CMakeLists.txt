@@ -5,7 +5,11 @@ get_filename_component(PROJECT ${FILENAME} NAME_WE) #automatically sets project 
 message(STATUS "Project name is ${PROJECT}")
 project (${PROJECT})
 
-include_directories(mi)
+include_directories(
+    "${PROJECT_SOURCE_DIR}/../mi"
+    "${PROJECT_SOURCE_DIR}/.."
+)
+
 include_directories(${SC_PATH}/include/plugin_interface)
 include_directories(${SC_PATH}/include/common)
 include_directories(${SC_PATH}/common)
