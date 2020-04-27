@@ -61,4 +61,5 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/release/bin)
 ############
 add_subdirectory(mi)
 add_subdirectory(ZZGen)
+add_subdirectory(ZZNoise)
 
